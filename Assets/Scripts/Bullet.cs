@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody myRigidbody;
     private Collider myCollider;
     public int damage = 1;
+    public ParticleSystem Explotion;
 
     private void Start()
     {
@@ -42,6 +43,10 @@ public class Bullet : MonoBehaviour
             col.gameObject.GetComponent<Character>().ApplyDamage(damage);
         }
 
-        AutoDestroy();
+        if (Explotion != null)
+        {
+            (Instantiate<ParticleSystem>(Explotion, transform.position, Explotion.transform.rotation)).Play();
+        }
+            AutoDestroy();
     }
 }
