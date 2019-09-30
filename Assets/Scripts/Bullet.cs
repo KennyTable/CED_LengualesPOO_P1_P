@@ -6,8 +6,8 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody myRigidbody;
     private Collider myCollider;
+    public int damage = 1;
 
-    // Start is called before the first frame update
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
@@ -32,5 +32,16 @@ public class Bullet : MonoBehaviour
     private void AutoDestroy()
     {
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Player" 
+            || col.gameObject.tag == "Enemy")
+        {
+            col.gameObject.GetComponent<Character>().ApplyDamage(damage);
+        }
+
+        AutoDestroy();
     }
 }
