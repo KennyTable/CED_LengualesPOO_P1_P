@@ -4,22 +4,23 @@ public class Enemy : Character
 {
     public float movementSpeed = 5F;
     public float timeToShoot = 3F;
-
     private float movementValue = 0F;
     private float elapsedTime;
     private bool returning = false;
 
     private void Start()
     {
-        InvokeRepeating("FireBullet", 0F, timeToShoot);
+       InvokeRepeating("FireBullet", 0F, timeToShoot);     
     }
 
     // Update is called once per frame
     private void Update()
     {
-        spawnPosition.LookAt(
-            GameObject.FindGameObjectWithTag("Player").transform);
-
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+            { 
+                CancelInvoke("FireBullet"); 
+            }
+            
         movementValue = Mathf.Lerp(-1F, 1F, elapsedTime);
 
         if (movementValue != 0)
@@ -36,6 +37,6 @@ public class Enemy : Character
             returning = true;
         }
 
-        elapsedTime += Time.deltaTime * (returning ? -1 : 1);
+        elapsedTime += Time.deltaTime * (returning ? -1 : 1);        
     }
 }
